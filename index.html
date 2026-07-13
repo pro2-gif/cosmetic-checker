@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>뷰티 팩트체커 - 식약처 공식 인증 검색</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>✨ 뷰티 팩트체커</h1>
+            <p>식약처 데이터를 기반으로 화장품의 진짜 성분과 위반 이력을 확인하세요.</p>
+        </header>
+
+        <main>
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="검색할 화장품 이름을 입력하세요 (예: 아이오페 레티놀)" autocomplete="off">
+                <button id="searchBtn">
+                    검증하기
+                </button>
+            </div>
+
+            <div id="resultContainer" class="result-container hidden">
+                <!-- 결과가 여기에 표시됩니다 -->
+            </div>
+            
+            <div id="loading" class="loading hidden">
+                <div class="spinner"></div>
+                <p>식약처 데이터베이스를 조회 중입니다...</p>
+            </div>
+        </main>
+    </div>
+
+    <!-- 스크립트 파일 로드 -->
+    <script src="app.js"></script>
+</body>
+</html>
