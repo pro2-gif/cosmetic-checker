@@ -34,32 +34,30 @@ async function performSearch() {
 
     try {
         // 실제 API 연동 로직
-        // 주의: 사용하시는 실제 API 주소(URL)에 맞게 변경이 필요할 수 있습니다.
-        const targetUrl = `http://apis.data.go.kr/1471000/FtnlCosmRptInfoService/getFtnlCosmRptInfoList?serviceKey=${API_KEY}&pageNo=1&numOfRows=10&type=json&ITEM_NAME=${encodeURIComponent(keyword)}`;
+        // 실제 API 연동 로직
+        // 브라우저에서 직접 식약처 서버로 가지 않고, 우리가 만든 안전한 중간 서버(server.js)에 요청합니다.
+        const localApiUrl = `/api/search?keyword=${encodeURIComponent(keyword)}`;
         
-        // 프록시를 통해 요청 (보안 우회)
-        const response = await fetch(PROXY_URL + encodeURIComponent(targetUrl));
+        // 우회 서버로 요청
+        const response = await fetch(localApiUrl);
         
         if (!response.ok) {
-            throw new Error('네트워크 응답이 정상이 아닙니다.');
+            throw new Error('네트워크 응답이 정상이 아닙니다. (상태 코드: ' + response.status + ')');
         }
 
-        const proxyData = await response.json();
+        // 텍스트 형태로 먼저 받아서 확인합니다.
+        const rawText = await response.text();
         
-        // 프록시가 감싸서 보내준 진짜 데이터를 파싱합니다.
         let actualData = null;
         try {
-            actualData = JSON.parse(proxyData.contents);
+            actualData = JSON.parse(rawText);
         } catch(e) {
-            // JSON 파싱 실패 시 XML 응답일 확률이 높음
             console.log("JSON 파싱 실패 (XML 등 다른 형태의 응답일 수 있음)");
         }
 
         loading.classList.add('hidden');
 
-        // 받아온 데이터를 바탕으로 리포트를 생성합니다.
-        // 실제 데이터 구조에 맞춰서 렌더링하도록 임시 로직을 작성합니다.
-        renderRealResult(actualData, keyword, proxyData.contents);
+        renderRealResult(actualData, keyword, rawText);
 
     } catch (error) {
         console.error("API 연동 에러:", error);
