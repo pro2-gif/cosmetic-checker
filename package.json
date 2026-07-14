@@ -2,7 +2,6 @@
   "name": "cosmeceuticals",
   "version": "1.0.0",
   "description": "Functional Cosmetics Fact Checker",
-  "main": "server.js",
   "scripts": {
     "start": "node server.js",
     "dev": "node server.js"
